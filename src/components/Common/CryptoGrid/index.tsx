@@ -1,5 +1,4 @@
 import millify from "millify";
-import { AiOutlineAlibaba } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 interface CoinData {
@@ -8,6 +7,7 @@ interface CoinData {
   rank: number;
   name: string;
   iconUrl: string;
+  marketCap: string;
   price: number;
   volume: number;
   change: number;
@@ -30,8 +30,11 @@ const CryptoGrid: React.FC<Props> = ({ coins }) => {
             <ul key={coin.id} className="space-y-2">
               <li className="mb-4">
                 <div className="flex items-start gap-5">
-                  <AiOutlineAlibaba size={50} />
-                  {/* <img src={coin.iconUrl} alt={coin.name} */}
+                  <img
+                    src={coin.iconUrl}
+                    alt={coin.name}
+                    className="w-16 h-16 rounded-full"
+                  />
                   <div>
                     <h5 className="text-2xl font-semibold text-violet-800 dark:text-violet-700">
                       {coin.name}
@@ -51,9 +54,9 @@ const CryptoGrid: React.FC<Props> = ({ coins }) => {
               </li>
               <li className="flex gap-5 justify-between items-center">
                 <p className="font-medium inline-block mr-2 dark:text-gray-400 ">
-                  Total Volume
+                  Market cap
                 </p>
-                <span>{millify(coin.volume)}$</span>
+                <span>{millify(Number(coin.marketCap))}$</span>
               </li>
               <li className="flex gap-5 justify-between items-center">
                 <p className="font-medium inline-block mr-2 dark:text-gray-400 ">

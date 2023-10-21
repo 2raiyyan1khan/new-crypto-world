@@ -7,29 +7,47 @@ import { default as Loading } from "../Common/Loader";
 import NewsGrid from "../Common/NewsGrid";
 import SectionTitle from "../Common/SectionTitle";
 import SectionWrapper from "../Common/SectionWrapper";
-import { dummyCoins } from "../Crypto/CryptoList";
-import { dummyNewsData } from "../CryptoNews";
+import useGetCrypto from "../Hooks/useGetCrypto";
+import useNewsData from "../Hooks/useNewsData";
 
 const Home = () => {
-  // const { data, isFetching } = useGetCryptoQuery(10);
-  let stats = {};
-  let show = false;
+  const { data, isFetching, isError } = useGetCrypto({ limit: 10 });
+  const {
+    data: newsData,
+    isFetching: isNewsLoading,
+    isError: isNewsError,
+  } = useNewsData();
+  const stats = data?.stats;
+  const coins = data?.coins;
+  const news = newsData?.news;
   return (
     <Container>
       <SectionWrapper className="space-y-14">
         <Hero />
-        {show ? (
+        {isFetching ? (
           <Loading home />
+        ) : isError ? (
+          <div className="flex justify-center items-center">
+            <h2>{`${isError}`}</h2>
+          </div>
         ) : (
           <div className="space-y-8">
-            <SectionTitle>Global Statistics</SectionTitle>
+            <div className="flex justify-between items-start">
+              <SectionTitle>
+                Today's 24-Hour Global Data and the Top 10 Currencies
+              </SectionTitle>
+              <button className="bg-violet-800 text-white dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-violet-700">
+                <Link to="/currencies">View All</Link>
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div className="dark:bg-neutral-900 bg-zinc-100 p-5 rounded-xl text-center border-[0.5px] dark:border-neutral-800">
                 <h5 className="text-5xl font-semibold mb-3">
-                  {stats?.total || 3456}
+                  {stats?.totalCoins || 0}
                 </h5>
                 <p className="text-sm dark:text-gray-400 text-gray-600">
-                  Total
+                  Total Coins
                 </p>
               </div>
               <div className="dark:bg-neutral-900 bg-zinc-100 p-5 rounded-xl text-center border-[0.5px] dark:border-neutral-800">
@@ -42,7 +60,7 @@ const Home = () => {
               </div>
               <div className="dark:bg-neutral-900 bg-zinc-100 p-5 rounded-xl text-center border-[0.5px] dark:border-neutral-800">
                 <h5 className="text-5xl font-semibold mb-3">
-                  {stats?.totalMarketCap && millify(stats?.totalMarketCap)}
+                  ${stats?.totalMarketCap && millify(stats?.totalMarketCap)}
                 </h5>
                 <p className="text-sm dark:text-gray-400 text-gray-600">
                   Total Markets Cap
@@ -58,10 +76,10 @@ const Home = () => {
               </div>
               <div className="dark:bg-neutral-900 bg-zinc-100 p-5 rounded-xl text-center border-[0.5px] dark:border-neutral-800">
                 <h5 className="text-5xl font-semibold mb-3">
-                  {stats?.total24hVolume && millify(stats?.total24hVolume)}
+                  ${stats?.total24hVolume && millify(stats?.total24hVolume)}
                 </h5>
                 <p className="text-sm dark:text-gray-400 text-gray-600">
-                  Total 24H Volume
+                  Total 24H Trading Volume
                 </p>
               </div>
             </div>
@@ -71,27 +89,29 @@ const Home = () => {
         {/* top 10 currencies  */}
 
         <div className="space-y-8">
-          <div className="flex justify-between items-start">
-            <SectionTitle>Today's Standout Currencies</SectionTitle>
-            <button className="bg-violet-800 text-white dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-violet-700">
-              <Link to="/currencies">View All</Link>
-            </button>
-          </div>
-
-          <CryptoGrid coins={dummyCoins} />
+          <CryptoGrid coins={coins} />
         </div>
-
+      </SectionWrapper>
+      <SectionWrapper>
         {/* top 10 News  */}
-        <div className="space-y-8">
-          <div className="flex justify-between items-start">
-            <SectionTitle>Trending News</SectionTitle>
-            <button className="bg-violet-800 text-white dark:text-gray-300 px-4 py-2 rounded-lg  text-sm font-semibold hover:bg-violet-700">
-              <Link to="/news">View All</Link>
-            </button>
+        {isNewsLoading ? (
+          <h1>Loading news....</h1>
+        ) : isNewsError ? (
+          <div className="flex justify-center items-center">
+            <h2>{`${isNewsError}`}</h2>
           </div>
+        ) : (
+          <div className="space-y-8">
+            <div className="flex justify-between items-start">
+              <SectionTitle>Trending News</SectionTitle>
+              <button className="bg-violet-800 text-white dark:text-gray-300 px-4 py-2 rounded-lg  text-sm font-semibold hover:bg-violet-700">
+                <Link to="/news">View All</Link>
+              </button>
+            </div>
 
-          <NewsGrid data={{ value: dummyNewsData }} />
-        </div>
+            <NewsGrid data={news} />
+          </div>
+        )}
       </SectionWrapper>
     </Container>
   );
