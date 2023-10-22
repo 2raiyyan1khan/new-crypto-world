@@ -4,7 +4,7 @@ export interface FetchDataResponse<T> {
   status: 'success' | 'error';
 }
 
-export type FetchDataFunction<T> = () => Promise<FetchDataResponse<T>>;
+export type FetchDataFunction<T> = () => Promise<{ data: T, status: 'success' | 'error' }>;
 
 function useFetch<T>(fetchDataFunction: FetchDataFunction<T>) {
   const [data, setData] = useState<T | null>(null);
@@ -18,9 +18,10 @@ function useFetch<T>(fetchDataFunction: FetchDataFunction<T>) {
       const response = await fetchDataFunction();
       if (response.status === 'success') {
         setData(response.data);
+
       }
     } catch (error) {
-      setIsError(error?.message || 'Oops! Something went wrong!');
+      setIsError('Oops! Something went wrong!');
     } finally {
       setIsFetching(false);
     }

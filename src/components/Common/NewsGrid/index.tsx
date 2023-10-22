@@ -57,7 +57,7 @@ const NewsGrid: React.FC<Props> = ({ data }) => {
             <div className="flex flex-col">
               <small>{news.provider[0].name}</small>
               <small className="text-xs dark:text-gray-400 text-gray-600">
-                {moment(news.datePublished).startOf("ss").fromNow()}
+                {moment(news.datePublished).startOf("second").fromNow()}
               </small>
             </div>
           </div>

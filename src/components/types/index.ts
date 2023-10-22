@@ -57,9 +57,7 @@ export interface StatsTypes {
 export interface CoinsProps {
   coins: CoinProps[] | undefined;
 }
-export interface News {
-  news: NewsArticle[]
-}
+
 
 export interface StatsTypes {
   totalCoins: number;

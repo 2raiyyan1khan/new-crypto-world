@@ -25,8 +25,7 @@ const Home = () => {
   } = useNewsData();
   const cryptoStats = data?.stats as StatsTypes;
   const coins = data?.coins;
-  const news = newsData?.news;
-  console.log("news", news);
+  const news = newsData;
   return (
     <Container>
       <SectionWrapper className="space-y-14">
@@ -86,7 +85,7 @@ const Home = () => {
             )}
           </div>
           <RenderContent isLoading={isNewsLoading} isError={isNewsError}>
-            <NewsGrid data={news} />
+            <NewsGrid data={news || []} />
           </RenderContent>
         </div>
       </SectionWrapper>
