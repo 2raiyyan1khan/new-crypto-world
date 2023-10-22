@@ -6,7 +6,7 @@ export const coinHeaders = {
 };
 
 export const coinsEndpoint = `/coins`;
-export const coinsDetailEndpoint = `/coin`;
+export const coinsDetailEndpoint = `/coin/`;
 
 
 
@@ -21,34 +21,26 @@ export const newsEndPoint = `/news/search?q=cryptocurrency&safeSearch=Off&textFo
 
 type CoinHeaders = typeof coinHeaders;
 type NewsHeaders = typeof newsHeaders;
+export enum Methods {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  PATCH = "PATCH",
+  DELETE = "DELETE"
+}
 interface CallApiProps {
   url: string;
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  method?: string;
   headers: CoinHeaders | NewsHeaders
 }
 
-export const callApi = async ({ url, method = "GET", headers }: CallApiProps) => {
+export const callApi = async ({ url, method = Methods.GET, headers }: CallApiProps) => {
   try {
-    const response = await fetch(url, { method: method, headers });
+    const response = await fetch(url, { method, headers });
     return await response.json();
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
-
   }
 }
-// const createRequest = (url: string) => ({ url, headers: headers });
-// export const cryptoApi = createApi({
-//   reducerPath: "cryptoApi",
-//   baseQuery: fetchBaseQuery({ baseUrl }),
-//   endpoints: (builder) => ({
-//     getCrypto: builder.query({
-//       query: (limit) => createRequest(`/coins?limit=${limit}`),
-//     }),
-//     getCryptoDetails: builder.mutation({
-//       query: (cId) => createRequest(`/coin/${cId}`),
-//     }),
-//   }),
-// });
-// export const { useGetCryptoQuery, useGetCryptoDetailsMutation } = cryptoApi;

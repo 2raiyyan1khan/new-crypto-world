@@ -3,7 +3,7 @@ import Container from "../ContainerWrapper";
 
 const Footer = () => {
   return (
-    <footer className="dark:bg-neutral-900 bg-zinc-100">
+    <footer className="dark:bg-neutral-900 bg-zinc-100 border-t dark:border-neutral-800 ">
       <Container>
         <div className="dark:text-gray-400 py-5">
           <div className="md:space-y-0 space-y-10 md:flex justify-between items-center">

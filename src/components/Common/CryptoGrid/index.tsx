@@ -1,33 +1,19 @@
 import millify from "millify";
+import { AiOutlineNumber } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { CoinProps, CoinsProps } from "../../types";
+import Badge from "../Badge";
 
-interface CoinData {
-  id: number;
-  slug: string;
-  rank: number;
-  name: string;
-  iconUrl: string;
-  marketCap: string;
-  price: number;
-  volume: number;
-  change: number;
-}
-
-// Define props interface for your component
-interface Props {
-  coins: CoinData[] | undefined;
-}
-
-const CryptoGrid: React.FC<Props> = ({ coins }) => {
+const CryptoGrid: React.FC<CoinsProps> = ({ coins }) => {
   return (
     <div className="grid  md:grid-cols-3 gap-5 sm:grid-cols-2 grid-cols-1 ">
-      {coins?.map((coin: CoinData) => (
+      {coins?.map((coin: CoinProps) => (
         <div
           className="dark:bg-neutral-900 bg-zinc-100 rounded-xl p-5 border-[0.5px] dark:border-neutral-800"
-          key={coin.id}
+          key={coin.uuid}
         >
-          <Link to={`/currency/${coin.slug}/${coin.id}`}>
-            <ul key={coin.id} className="space-y-2">
+          <Link to={`/currency/${coin.uuid}`}>
+            <ul key={coin.uuid} className="space-y-2">
               <li className="mb-4">
                 <div className="flex items-start gap-5">
                   <img
@@ -36,12 +22,14 @@ const CryptoGrid: React.FC<Props> = ({ coins }) => {
                     className="w-16 h-16 rounded-full"
                   />
                   <div>
-                    <h5 className="text-2xl font-semibold text-violet-800 dark:text-violet-700">
+                    <h4 className=" mb-2 text-2xl font-semibold text-violet-800 dark:text-violet-700">
                       {coin.name}
-                    </h5>
-                    <h5 className="text-sm font-medium dark:text-gray-400 ">
-                      Rank: {coin.rank}
-                    </h5>
+                    </h4>
+                    <h6 className="text-sm font-medium dark:text-gray-400 ">
+                      <Badge className=" dark:bg-green-900 dark:text-green-200 bg-green-200 text-green-900">
+                        <AiOutlineNumber /> {coin.rank}
+                      </Badge>
+                    </h6>
                   </div>
                 </div>
               </li>
@@ -50,19 +38,26 @@ const CryptoGrid: React.FC<Props> = ({ coins }) => {
                 <p className="font-medium  inline-block mr-2 dark:text-gray-400 ">
                   Price
                 </p>
-                <span>{millify(coin.price)}$</span>
+                <span className="font-medium">
+                  {millify(Number(coin.price))}$
+                </span>
               </li>
               <li className="flex gap-5 justify-between items-center">
                 <p className="font-medium inline-block mr-2 dark:text-gray-400 ">
                   Market cap
                 </p>
-                <span>{millify(Number(coin.marketCap))}$</span>
+                <span className="font-medium">
+                  {millify(Number(coin.marketCap))}$
+                </span>
               </li>
               <li className="flex gap-5 justify-between items-center">
                 <p className="font-medium inline-block mr-2 dark:text-gray-400 ">
                   Change
                 </p>
-                <span style={{ color: coin.change < 0 ? "red" : "green" }}>
+                <span
+                  className="font-medium"
+                  style={{ color: Number(coin.change) < 0 ? "red" : "green" }}
+                >
                   {coin.change}%
                 </span>
               </li>

@@ -1,33 +1,23 @@
-import { useEffect, useState } from 'react';
 import { callApi, newsBaseUrl, newsEndPoint, newsHeaders } from '../../services';
 import { News } from '../types';
+import useFetch, { FetchDataFunction } from './useFetch';
 
 function useNewsData() {
-  const [data, setData] = useState<News>({ news: [] });
-  const [isFetching, setIsFetching] = useState(true);
-  const [isError, setIsError] = useState<unknown>();
-
-  const fetchData = async () => {
-    try {
-      setIsError("");
-      setIsFetching(true);
-      const response = await callApi({ url: `${newsBaseUrl}${newsEndPoint}`, headers: newsHeaders });
-      if (response?.value) {
-        setData({ news: response?.value || [] })
-      }
-    } catch (error) {
-      setIsError(error);
-    } finally {
-      setIsFetching(false)
+  const fetchDataFunction: FetchDataFunction<News> = async () => {
+    const response = await callApi({ url: `${newsBaseUrl}${newsEndPoint}`, headers: newsHeaders });
+    if (response?.value) {
+      return {
+        data: { news: response.value || [] }, // Assuming the news data is directly inside the response
+        status: 'success',
+      };
+    } else {
+      return {
+        data: { news: [] }, // Return an empty array if there is an error
+        status: 'error',
+      };
     }
-
-  }
-  useEffect(() => {
-    fetchData()
-  }, [])
-  return {
-    isFetching, isError, data
-  }
+  };
+  return useFetch(fetchDataFunction);
 }
 
 export default useNewsData

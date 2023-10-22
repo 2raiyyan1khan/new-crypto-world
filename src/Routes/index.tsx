@@ -36,15 +36,15 @@ export const routes = createBrowserRouter(
       <Route
         path="currencies"
         element={
-          <Suspense fallback={<h1>Loading Currency List...</h1>}>
+          <Suspense fallback={<GlobalLoader />}>
             <CryptoList />
           </Suspense>
         }
       />
       <Route
-        path="currency/:name/:cId"
+        path="currency/:cId"
         element={
-          <Suspense fallback={<h1>Loading Currency Detail...</h1>}>
+          <Suspense fallback={<GlobalLoader />}>
             <CryptoDetail />
           </Suspense>
         }
@@ -52,7 +52,7 @@ export const routes = createBrowserRouter(
       <Route
         path="news"
         element={
-          <Suspense fallback={<h1>Loading News List...</h1>}>
+          <Suspense fallback={<GlobalLoader />}>
             <News />
           </Suspense>
         }
