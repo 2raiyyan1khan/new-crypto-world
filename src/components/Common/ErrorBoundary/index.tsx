@@ -2,7 +2,6 @@ import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 function ErrorBoundary() {
   const error = useRouteError();
-  console.log("err", error);
   if (isRouteErrorResponse(error)) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -24,11 +23,13 @@ function ErrorBoundary() {
         </div>
       </div>
     );
-  } else {
+  }
+
+  return (
     <div>
       <h2>Something went wrong!</h2>
-    </div>;
-  }
+    </div>
+  );
 }
 
 export default ErrorBoundary;

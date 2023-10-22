@@ -4,14 +4,8 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import {
-  CryptoDetail,
-  CryptoList,
-  ErrorBoundary,
-  Home,
-  Layout,
-  News,
-} from "../components";
+import { CryptoDetail, CryptoList, Home, Layout, News } from "../components";
+import ErrorBoundary from "../components/Common/ErrorBoundary";
 import GlobalLoader from "../components/Common/Loader";
 
 export const routes = createBrowserRouter(
