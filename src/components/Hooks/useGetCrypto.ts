@@ -20,19 +20,19 @@ function useGetCrypto({ limit, endpoint }: ComponentProps) {
           data: { coin, coins: [], stats: {} },
           status: 'success',
         };
-      } else {
-        const { coins, stats } = response.data;
-        return {
-          data: { coins, stats },
-          status: 'success',
-        };
       }
-    } else {
+      const { coins, stats } = response.data;
       return {
-        data: null,
-        status: 'error',
+        data: { coins, stats },
+        status: 'success',
       };
+
     }
+    return {
+      data: null,
+      status: 'error',
+    };
+
   };
 
   return useFetch(fetchDataFunction);

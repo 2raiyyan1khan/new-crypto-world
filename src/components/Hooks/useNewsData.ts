@@ -12,12 +12,12 @@ function useNewsData() {
         data: response.value,
         status: 'success',
       };
-    } else {
-      return {
-        data: [],
-        status: 'error',
-      };
     }
+    return {
+      data: [],
+      status: 'error',
+    };
+
   };
   return useFetch(fetchDataFunction);
 }
