@@ -29,7 +29,7 @@ const NewsGrid: React.FC<Props> = ({ data }) => {
                     news?.image?.thumbnail?.contentUrl ||
                     "../../../assets/default-image.png"
                   }
-                  alt={news.name}
+                  alt="Cover Picture"
                 />
                 <div className="w-full h-auto">
                   <h2 className="text-lg font-semibold hover:text-blue-700 line-clamp-3">
