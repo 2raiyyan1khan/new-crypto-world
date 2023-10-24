@@ -32,9 +32,7 @@ const Home = () => {
         <Hero />
         <div className="space-y-8">
           <div className="flex justify-between items-start">
-            <SectionTitle>
-              Today's 24-Hour Global Data and the Top 10 Currencies
-            </SectionTitle>
+            <SectionTitle>Today's 24-Hour Global Statistics</SectionTitle>
             {!isFetching && (
               <button className="bg-violet-800 text-white dark:text-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-violet-700">
                 <Link to="/currencies">View All</Link>

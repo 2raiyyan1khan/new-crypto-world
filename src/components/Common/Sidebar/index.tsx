@@ -39,6 +39,7 @@ const Sidebar = () => {
               const Icon = route.icon;
               return (
                 <li
+                  onClick={() => dispatch(toggleSidebar())}
                   key={route.to}
                   className="py-3 px-5 dark:hover:bg-neutral-800 hover:bg-zinc-200"
                 >
